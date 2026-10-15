@@ -1,0 +1,181 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Intelligent Investor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+:root{--b9:#0b2a6f;--b7:#1e40af;--b6:#2563eb;--b2:#bfdbfe;--b1:#dbeafe;--b0:#eff6ff;--ink:#0f1e3d;--mute:#5b6b8c;--line:#d9e3f5;--gain:#0e9f6e;--loss:#dc2626;--sh:0 4px 18px rgba(30,64,175,.09)}
+*{box-sizing:border-box}body{margin:0;background:var(--b0);color:var(--ink);font:16px/1.6 "Plus Jakarta Sans",system-ui,sans-serif}
+button,input,select{font-family:inherit}.w{max-width:1040px;margin:0 auto;padding:0 20px}.hide{display:none!important}
+h1{font-weight:800;font-size:clamp(2.1rem,5vw,3.3rem);line-height:1.1;margin:0 0 16px;letter-spacing:-.02em}
+h2{font-size:1.5rem;font-weight:700;margin:0 0 6px;letter-spacing:-.01em}h3{font-size:1.05rem;font-weight:700;margin:26px 0 12px}
+.mute{color:var(--mute);font-size:.92rem}.gain{color:var(--gain)}.loss{color:var(--loss)}
+.brand{font-weight:800;font-size:1.15rem;display:flex;align-items:center}
+.logo{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:9px;background:var(--b6);color:#fff;font-weight:800;margin-right:8px}
+.top{background:#fff;border-bottom:1px solid var(--line)}.top .w{display:flex;align-items:center;justify-content:space-between;height:64px;gap:12px}
+.nav{display:flex;gap:10px;align-items:center;font-size:.9rem;color:var(--mute)}
+.hero{background:linear-gradient(135deg,var(--b9),var(--b6));color:#fff}.hero .brand{color:#fff}.hero .logo{background:#fff;color:var(--b6)}
+.hbar{display:flex;justify-content:space-between;align-items:center;height:64px;font-size:.9rem;color:var(--b1)}
+.hg{display:grid;grid-template-columns:1.15fr 1fr;gap:48px;padding:40px 0 72px;align-items:center}
+@media(max-width:800px){.hg{grid-template-columns:1fr;gap:28px;padding-bottom:48px}}
+.lead{font-size:1.1rem;color:var(--b1);max-width:32em}
+.box{background:#fff;color:var(--ink);border-radius:18px;padding:26px;box-shadow:0 18px 50px rgba(5,20,70,.35)}
+.tabs{display:flex;background:var(--b0);border-radius:10px;padding:4px;margin-bottom:14px}
+.tab{flex:1;border:0;background:transparent;color:var(--mute);padding:9px;border-radius:8px;font-weight:600;font-size:.95rem;cursor:pointer}
+.tab.on{background:#fff;color:var(--b7);box-shadow:0 1px 4px rgba(30,64,175,.15)}
+label{display:block;font-size:.85rem;color:var(--mute);margin:12px 0 4px;font-weight:500}
+input{width:100%;font-size:1rem;padding:11px 13px;border:1.5px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+input:focus,select:focus{border-color:var(--b6);outline:3px solid var(--b1)}
+input.num{font-size:2.3rem;font-weight:800;border:0;border-bottom:3px solid var(--b6);border-radius:0;padding:6px 0;background:transparent;color:var(--b7);font-variant-numeric:tabular-nums}
+input.num:focus{outline:0}
+.row2{display:flex;gap:14px;align-items:end}.row2 input{flex:1;min-width:0}
+select{font-size:1.1rem;font-weight:700;padding:10px 12px;background:#fff;color:var(--b7);border:1.5px solid var(--line);border-radius:10px}
+button{font-weight:600;font-size:1rem;padding:12px 24px;border:2px solid var(--b6);background:var(--b6);color:#fff;border-radius:10px;cursor:pointer;transition:.15s}
+button:hover{background:var(--b7);border-color:var(--b7)}button:disabled{opacity:.6;cursor:wait}
+button.ghost{background:#fff;color:var(--b6)}button.ghost:hover{background:var(--b0);color:var(--b7)}button.full{width:100%;margin-top:16px}
+button.sell{background:var(--loss);border-color:var(--loss);color:#fff}button.sell:hover{background:#b91c1c;border-color:#b91c1c}
+button:focus-visible,.tab:focus-visible{outline:3px solid var(--b2);outline-offset:2px}
+.sm{padding:7px 14px;font-size:.88rem}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 4px}
+.chip{padding:7px 16px;font-size:.9rem;background:var(--b0);color:var(--b7);border:1.5px solid var(--b1);border-radius:999px}
+.chip:hover{background:var(--b1);color:var(--b7);border-color:var(--b2)}
+.err{color:var(--loss);min-height:1.4em;margin-top:10px;font-size:.9rem}
+.how{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;padding:44px 0 20px}
+.hc{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:var(--sh)}.hc b{display:block}
+.n{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--b1);color:var(--b7);font-weight:800;margin-bottom:8px}
+footer{padding:26px 0 40px;color:var(--mute);font-size:.85rem}
+.prog{max-width:700px;margin:26px auto 0;display:flex;gap:8px}
+.dot{flex:1;border-top:5px solid #cfe0fa;padding-top:7px;font-size:.82rem;color:var(--mute);font-weight:600}.dot.on{border-color:var(--b6);color:var(--b7)}
+.step,.card{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh)}
+.step{max-width:700px;margin:22px auto 60px;padding:30px}.acts{display:flex;gap:10px;margin-top:26px;flex-wrap:wrap}
+.dash{max-width:860px;margin:22px auto 60px}.card{padding:22px;margin-bottom:18px}
+.pill{display:inline-block;background:var(--b1);color:var(--b7);font-weight:700;font-size:.78rem;padding:4px 12px;border-radius:999px;margin-bottom:10px}
+.big{font-size:2.3rem;font-weight:800;line-height:1.15;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:18px 0}
+.tile{background:var(--b0);border-radius:12px;padding:14px}.tile .l{font-size:.8rem;color:var(--mute)}.tile b{display:block;font-size:1.1rem;font-variant-numeric:tabular-nums}
+.tile small{display:block;color:var(--mute);font-size:.78rem;line-height:1.35;margin-top:4px}
+.sum{background:var(--b1);color:var(--b9);border-radius:12px;padding:14px 16px;font-weight:500}
+.rs{border-left:4px solid var(--b6);padding:2px 0 2px 14px;margin:0 0 18px}.rs b{display:block}
+.rs .f{display:block;color:var(--b6);font-weight:700;font-size:.9rem}.rs p{margin:4px 0 0;font-size:.95rem}
+.note{border:1.5px dashed var(--b2);border-radius:12px;padding:12px 16px;color:var(--mute);font-size:.9rem;margin-top:18px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:18px}
+.stat{padding:18px;margin:0}.stat .l{color:var(--mute);font-size:.85rem}.stat b{display:block;font-size:1.4rem;font-weight:800;font-variant-numeric:tabular-nums}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}.row:last-child{border:0}
+table{width:100%;border-collapse:collapse;font-size:.9rem;font-variant-numeric:tabular-nums}th,td{text-align:left;padding:9px 6px;border-bottom:1px solid var(--line)}th{color:var(--mute);font-weight:600}
+.tw{overflow-x:auto}canvas{max-height:260px}
+</style></head><body>
+
+<div id="landing"><section class="hero"><div class="w">
+<div class="hbar"><span class="brand"><span class="logo">i</span>Intelligent Investor</span><span>Real market prices</span></div>
+<div class="hg"><div>
+<h1>Your first investment, explained simply.</h1>
+<p class="lead">Tell us how much and for how long. Our AI picks a stock that suits you, buys it at the real market price, and explains why in plain words.</p></div>
+<div class="box"><div class="tabs"><button class="tab on" data-m="login">Log in</button><button class="tab" data-m="signup">Sign up</button></div>
+<form id="af"><label for="em">Email</label><input id="em" type="email" autocomplete="email" required>
+<label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password" minlength="6" required>
+<button class="full" id="asub">Log in</button><div class="err" id="aerr" role="alert"></div></form>
+<p class="mute" id="anote" style="margin:4px 0 0">Create a free account to get started.</p></div></div></div></section>
+<div class="w"><div class="how">
+<div class="hc"><span class="n">1</span><b>Choose the amount</b><span class="mute">How much you want to put in.</span></div>
+<div class="hc"><span class="n">2</span><b>Choose the period</b><span class="mute">How long you want to stay invested, from a week to many years.</span></div>
+<div class="hc"><span class="n">3</span><b>Understand the plan</b><span class="mute">See the stock, why it was chosen, and when it will be sold.</span></div>
+<div class="hc"><span class="n">4</span><b>Watch it grow</b><span class="mute">Follow the real price chart and your profit or loss.</span></div></div>
+<footer>This is not financial advice. Investments can lose value, and past performance does not predict future results.</footer></div></div>
+
+<div id="app" class="hide"><header class="top"><div class="w"><span class="brand"><span class="logo">i</span>Intelligent Investor</span>
+<span class="nav"><span id="who"></span><button class="ghost sm" id="mine">My portfolio</button><button class="ghost sm" id="out">Log out</button></span></div></header>
+<div class="prog" id="prog"><div class="dot" data-n="1">1. Amount</div><div class="dot" data-n="2">2. Period</div><div class="dot" data-n="3">3. Plan</div><div class="dot" data-n="4">4. Portfolio</div></div>
+
+<div class="step" data-n="1"><h2>How much do you want to invest?</h2><p class="mute">You choose the amount. Minimum ₹1,000.</p>
+<input class="num" id="amt" type="number" value="50000" min="1000" step="1000" aria-label="Amount in rupees">
+<div class="chips" data-t="amt"><button class="chip" data-v="10000">₹10,000</button><button class="chip" data-v="25000">₹25,000</button><button class="chip" data-v="50000">₹50,000</button><button class="chip" data-v="100000">₹1,00,000</button></div>
+<div class="err" id="e1"></div><div class="acts"><button id="n1">Next</button></div></div>
+
+<div class="step hide" data-n="2"><h2>How long do you want to stay invested?</h2><p class="mute">Choose anything from 1 week to 30 years. Your money stays in the stock until then, unless you sell earlier.</p>
+<div class="row2"><input class="num" id="per" type="number" value="1" min="1" step="any" aria-label="Length of time">
+<select id="unit" aria-label="Unit"><option value="1">days</option><option value="5">weeks</option><option value="21" selected>months</option><option value="252">years</option></select></div>
+<div class="chips" data-t="per"><button class="chip" data-v="1" data-u="5">1 week</button><button class="chip" data-v="1" data-u="21">1 month</button><button class="chip" data-v="6" data-u="21">6 months</button><button class="chip" data-v="1" data-u="252">1 year</button><button class="chip" data-v="5" data-u="252">5 years</button><button class="chip" data-v="10" data-u="252">10 years</button></div>
+<div class="err" id="e2"></div><div class="acts"><button class="ghost" id="b2">Back</button><button id="n2">See my plan</button></div></div>
+
+<div class="step hide" data-n="3"><span class="pill">Your plan</span><h2 id="pname" style="font-size:2rem"></h2><p class="mute" id="pabout" style="margin:0"></p>
+<div class="tiles"><div class="tile"><span class="l">Amount</span><b id="pamt"></b><small>What you are investing</small></div>
+<div class="tile"><span class="l">Buy at</span><b id="pbuy"></b><small>Price of one share today</small></div>
+<div class="tile"><span class="l">Sell on</span><b id="pend"></b><small>We sell on this date unless something happens first</small></div>
+<div class="tile"><span class="l">Safety net</span><b id="pstop"></b><small>If the price falls to this, we sell to limit your loss</small></div></div>
+<div class="sum" id="psum"></div>
+<h3>Why the AI chose this stock</h3><div id="why"></div>
+<div class="note"><b>Good to know:</b> Nobody can predict the market, not even AI. The price on the sell date may be lower than today's price, so you can lose money. Only invest what you can afford to leave untouched for your chosen time.</div>
+<div class="err" id="e3"></div><div class="acts"><button class="ghost" id="b3">Back</button><button id="acc">Accept and invest</button></div></div>
+
+<div class="dash hide" data-n="4">
+<div class="stats"><div class="card stat"><span class="l">Total profit or loss</span><b id="total"></b></div><div class="card stat"><span class="l">Currently invested</span><b id="inv"></b></div>
+<div class="card stat"><span class="l">Current value</span><b id="held"></b></div><div class="card stat"><span class="l">Finished investments</span><b id="cl"></b></div></div>
+<div class="card"><h2>Open investments</h2><div id="open"></div></div>
+<div class="card"><h2>Trade history</h2><div class="tw" id="hist"></div></div>
+<div class="card"><h2>How did the AI do in past tests?</h2><div class="tw" id="rep">Loading…</div></div>
+<button id="again">Start a new investment</button></div>
+
+<div class="dash hide" data-n="5"><button class="ghost sm" id="back4" style="margin-bottom:14px">← Back to portfolio</button>
+<div class="card"><h2 id="dname" style="font-size:1.8rem"></h2><div class="big" id="dpl"></div><div class="tiles" id="dkv"></div>
+<canvas id="dchart"></canvas><div class="err" id="e5"></div><div class="acts"><button class="sell" id="sellbtn">Sell now</button></div>
+<p class="mute">Selling now closes this investment at the latest available price and ends the rest of the period. Prices update once per trading day, so this may be the previous close.</p></div></div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id),$$=s=>[...document.querySelectorAll(s)],inr=n=>'₹'+Number(n).toLocaleString('en-IN',{maximumFractionDigits:0}),
+pct=(n,b)=>((n/b)*100).toFixed(1)+'%',cls=n=>n>=0?'gain':'loss',sg=n=>n>=0?'+':'';
+const api=async(u,b)=>{const r=await fetch(u,b&&{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)});const j=await r.json().catch(()=>({}));if(!r.ok)throw Object.assign(new Error(j.detail||'Something went wrong'),{s:r.status});return j};
+let U,P,A,D,cur,mode='login',charts=[];
+
+/* landing: login / signup */
+$$('.tab').forEach(t=>t.onclick=()=>{mode=t.dataset.m;$$('.tab').forEach(x=>x.classList.toggle('on',x==t));$('asub').textContent=mode=='login'?'Log in':'Create account';$('aerr').textContent='';
+$('pw').autocomplete=mode=='login'?'current-password':'new-password'});
+$('af').onsubmit=async e=>{e.preventDefault();$('aerr').textContent='';try{await api('/api/'+mode,{email:$('em').value,password:$('pw').value});$('pw').value='';boot()}catch(x){$('aerr').textContent=x.message}};
+$('out').onclick=async()=>{await api('/api/logout',{});U=null;show('landing')};
+function show(v){$('landing').classList.toggle('hide',v!='landing');$('app').classList.toggle('hide',v!='app')}
+async function me(){U=await api('/api/me');$('who').textContent=U.email}
+async function boot(){try{await me();show('app');step(1)}catch{show('landing')}}
+
+/* wizard */
+function step(n){$$('[data-n]').forEach(s=>{if(!s.classList.contains('dot'))s.classList.toggle('hide',+s.dataset.n!=n)});
+$$('.dot').forEach(d=>d.classList.toggle('on',+d.dataset.n<=n));window.scrollTo(0,0);if(n==1)me();if(n==4)dash()}
+$$('.chips').forEach(c=>c.onclick=e=>{const v=e.target.dataset;if(v.v){$(c.dataset.t).value=v.v;if(v.u)$('unit').value=v.u}});
+$('n1').onclick=()=>{A=+$('amt').value;$('e1').textContent='';if(!(A>=1000))return $('e1').textContent='Enter at least ₹1,000.';step(2)};
+$('b2').onclick=()=>step(1);$('b3').onclick=()=>step(2);
+$('n2').onclick=async()=>{D=Math.round(+$('per').value*+$('unit').value);$('e2').textContent='';
+if(!(D>=5&&D<=7560))return $('e2').textContent='Choose a period between 1 week and 30 years.';
+$('n2').disabled=true;$('n2').textContent='Choosing a stock…';
+try{P=await api('/api/plan',{amount:A,period:D});$('pname').textContent=P.name;$('pabout').textContent=P.about;$('pamt').textContent=inr(P.amount);$('pbuy').textContent=inr(P.price);
+$('pend').textContent=P.end_date;$('pstop').textContent=inr(P.stop_loss)+' (-'+P.stop_pct+'%)';$('psum').textContent=P.summary+' Prices as of '+P.price_date+'.';
+$('why').innerHTML=P.reasons.map(r=>`<div class="rs"><b>${r.title}</b><span class="f">${r.fact}</span><p>${r.text}</p></div>`).join('');step(3)}
+catch(e){$('e2').textContent=e.message}finally{$('n2').disabled=false;$('n2').textContent='See my plan'}};
+$('acc').onclick=async()=>{$('e3').textContent='';try{await api('/api/accept',{amount:P.amount,period:P.period,ticker:P.ticker});await me();step(4)}catch(e){$('e3').textContent=e.message}};
+$('mine').onclick=()=>step(4);$('again').onclick=()=>step(1);
+
+/* portfolio */
+async function dash(){const d=await api('/api/portfolio');charts.forEach(c=>c.destroy());charts=[];
+const pl=d.open_pnl+d.closed_pnl;$('total').innerHTML=`<span class="${cls(pl)}">${sg(pl)}${inr(pl)}</span>`;$('inv').textContent=inr(d.invested);$('held').textContent=inr(d.open_value);
+$('cl').innerHTML=`<span class="${cls(d.closed_pnl)}">${sg(d.closed_pnl)}${inr(d.closed_pnl)}</span>`;
+const open=d.trades.filter(t=>t.status=='open'),closed=d.trades.filter(t=>t.status!='open');
+$('open').innerHTML=open.length?'':'<p class="mute">No open investments right now.</p>';
+for(const t of open){const el=document.createElement('div');el.className='row';
+el.innerHTML=`<div><b>${t.name}</b><div class="mute">${inr(t.amount)} invested, sells on ${t.end_date}</div></div><div class="${cls(t.pnl)}"><b>${sg(t.pnl)}${inr(t.pnl)} (${pct(t.pnl,t.amount)})</b></div><button class="ghost sm">View</button>`;
+el.querySelector('button').onclick=()=>detail(t);$('open').appendChild(el)}
+$('hist').innerHTML=closed.length?`<table><tr><th>Stock</th><th>Bought</th><th>Sold</th><th>Result</th></tr>${closed.map(t=>`<tr><td>${t.name}</td><td>${t.buy_date} at ${inr(t.buy_price)}</td><td>${t.sell_date} at ${inr(t.sell_price)}</td><td class="${cls(t.pnl)}">${sg(t.pnl)}${inr(t.pnl)} (${pct(t.pnl,t.amount)})</td></tr>`).join('')}</table>`:'<p class="mute">Finished investments appear here.</p>';
+try{const r=await api('/api/report');$('rep').innerHTML='<p class="mute">We tested the AI on past prices it had never seen. "All 5 stocks" means splitting the money equally across all five companies for the same time.</p><table><tr><th>Period</th><th>AI pick (average)</th><th>All 5 stocks (average)</th><th>AI pick made money</th><th>AI beat the 5-stock mix</th><th>Worst case</th></tr>'+
+Object.entries(r).map(([L,v])=>`<tr><td>${L} days</td><td>${v.dqn_avg_pct}%</td><td>${v.basket_avg_pct}%</td><td>${v.dqn_win_rate_pct}%</td><td>${v.beats_basket_pct}%</td><td>${v.dqn_worst_pct}%</td></tr>`).join('')+'</table>'}catch(e){$('rep').innerHTML='<p class="mute">'+e.message+'</p>'}}
+
+/* single investment: details, chart, sell early */
+async function detail(t){cur=t;$('e5').textContent='';step(5);$('dname').textContent=t.name;
+$('dpl').innerHTML=`<span class="${cls(t.pnl)}">${sg(t.pnl)}${inr(t.pnl)} (${pct(t.pnl,t.amount)})</span>`;
+const left=Math.max(0,Math.ceil((new Date(t.end_date)-new Date())/864e5));
+$('dkv').innerHTML=[['Invested',inr(t.amount)],['Bought on',t.buy_date+' at '+inr(t.buy_price)],['Price now',inr(t.price)],['Current value',inr(t.value)],
+['Planned sale',t.end_date+' ('+left+' days left)'],['Safety net',inr(t.stop_price)+' (-'+t.stop_pct+'%)']].map(([k,v])=>`<div class="tile"><span class="l">${k}</span><b>${v}</b></div>`).join('');
+const c=await api('/api/chart/'+encodeURIComponent(t.ticker));charts.forEach(x=>x.destroy());
+charts=[new Chart($('dchart'),{type:'line',data:{labels:c.dates,datasets:[{data:c.close,borderColor:'#2563eb',backgroundColor:'rgba(37,99,235,.08)',fill:true,borderWidth:2.5,pointRadius:0,tension:.15},
+{data:c.dates.map(x=>x==t.buy_date?t.buy_price:null),pointRadius:6,pointBackgroundColor:'#0e9f6e',showLine:false}]},options:{plugins:{legend:{display:false}},scales:{x:{ticks:{maxTicksLimit:6}}},animation:false}})]}
+$('back4').onclick=()=>step(4);
+$('sellbtn').onclick=async()=>{if(!confirm(`Sell ${cur.name} now at about ${inr(cur.price)}?`))return;$('sellbtn').disabled=true;$('e5').textContent='';
+try{await api('/api/sell',{id:cur.id});step(4)}catch(e){$('e5').textContent=e.message}finally{$('sellbtn').disabled=false}};
+boot();
+</script></body></html>

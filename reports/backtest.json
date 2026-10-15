@@ -1,0 +1,34 @@
+{
+  "10": {
+    "trials": 430,
+    "dqn_avg_pct": -0.27,
+    "basket_avg_pct": -0.46,
+    "dqn_win_rate_pct": 47.7,
+    "beats_basket_pct": 50.0,
+    "dqn_worst_pct": -16.08
+  },
+  "20": {
+    "trials": 420,
+    "dqn_avg_pct": -0.23,
+    "basket_avg_pct": -0.61,
+    "dqn_win_rate_pct": 51.0,
+    "beats_basket_pct": 53.6,
+    "dqn_worst_pct": -17.61
+  },
+  "30": {
+    "trials": 410,
+    "dqn_avg_pct": -0.18,
+    "basket_avg_pct": -0.75,
+    "dqn_win_rate_pct": 51.7,
+    "beats_basket_pct": 54.4,
+    "dqn_worst_pct": -20.54
+  },
+  "60": {
+    "trials": 380,
+    "dqn_avg_pct": 0.49,
+    "basket_avg_pct": -0.59,
+    "dqn_win_rate_pct": 53.7,
+    "beats_basket_pct": 55.8,
+    "dqn_worst_pct": -25.31
+  }
+}

@@ -1,0 +1,9 @@
+yfinance
+pandas
+numpy
+gymnasium
+stable-baselines3
+torch
+fastapi
+uvicorn
+apscheduler
